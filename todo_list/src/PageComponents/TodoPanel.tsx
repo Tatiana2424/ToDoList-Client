@@ -1,44 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { postToDoList } from '../Api/toDoListApi';
 
-// const DEFAULT_TODO = { name: '', description: '' };
 
-// interface AddTodoPanelProps {
-//   mode: 'add';
-//   addTodo: ({ name, description }: Omit<Todo, 'id' | 'checked'>) => void;
-// }
-
-// interface EditTodoPanelProps {
-//   mode: 'edit';
-//   editTodo: Omit<Todo, 'id' | 'checked'>;
-//   changeTodo: ({ name, description }: Omit<Todo, 'id' | 'checked'>) => void;
-// }
-
-// type TodoPanelProps = AddTodoPanelProps | EditTodoPanelProps;
 
 export const TodoPanel=()=> {
-//   const isEdit = props.mode === 'edit';
-//   const [todo, setTodo] = React.useState(isEdit ? props.editTodo : DEFAULT_TODO);
-
-//   const onClick = () => {
-//     if (isEdit) {
-//       return props.changeTodo(todo);
-//     }
-//     props.addTodo(todo);
-//     setTodo(DEFAULT_TODO);
-//   };
-
-//   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-//     const { value, name } = event.target;
-//     setTodo({ ...todo, [name]: value });
-//   };
-
+  const location = useLocation();
+  let navigate = useNavigate();
+  const [todolistName, setTodolistName]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState<string>("");
+  const [todolistDescription, setTodolistDescription]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState<string>("");
+  console.log("ggg "+location.state.id)
   return (
     <div className="todo_panel_container">
       <div className="fields_container">
         <div className="field_container">
           <label htmlFor='name'>
             <div>name</div>
-            <input autoComplete='off' id='name' name='name' />
+            <input autoComplete='off' 
+            id='name'
+            name='name' 
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setTodolistName(e.target.value)
+            }
+             />
           </label>
         </div>
         <div className="field_container">
@@ -47,16 +37,30 @@ export const TodoPanel=()=> {
             <input
               autoComplete='off'
               id='description'
-             
               name='description'
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTodolistDescription(e.target.value)
+              }
             />
           </label>
         </div>
       </div>
       <div className="button_container">
+      <button 
+        className='button button_green'
+        onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {navigate("/")}}
+        >
+
+           BACK TO CATEGORY LIST
+        </button>
         <button 
         className='button button_blue'
-        
+        onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
+          console.log(todolistName);
+          postToDoList({ name: todolistName, description:todolistDescription, categoryId:location.state.id});
+          console.log(todolistDescription)
+         // setTimeout(()=>{window.location.reload();},100);
+        }}
         >
             ADD
         </button>

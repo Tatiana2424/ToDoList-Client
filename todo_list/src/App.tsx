@@ -15,13 +15,14 @@ function App() {
   return (
     <div className="app_container">
       <div className="container">
-      
+      <BrowserRouter>
         <Header todoCount={2}/>
-         <CategoryPanel/>
-         <CategoryList/>
-         <BrowserRouter>
+         {/* <CategoryPanel/>
+         <CategoryList/> */}
+        
          <Routes>
-          <Route path="/services/:id" element={<ToDoList/>} /> 
+          <Route path="/"element={<CategoryList/>} /> 
+          <Route path="/todolist/:id" element={<ToDoList/>} /> 
         </Routes>
         </BrowserRouter>
       </div>
