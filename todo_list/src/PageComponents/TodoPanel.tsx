@@ -15,7 +15,7 @@ export const TodoPanel=()=> {
     string,
     React.Dispatch<React.SetStateAction<string>>
   ] = useState<string>("");
-  console.log("ggg "+location.state.id)
+ // console.log("ggg "+location.state.id)
   return (
     <div className="todo_panel_container">
       <div className="fields_container">
@@ -25,6 +25,7 @@ export const TodoPanel=()=> {
             <input autoComplete='off' 
             id='name'
             name='name' 
+           
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTodolistName(e.target.value)
             }
@@ -38,6 +39,7 @@ export const TodoPanel=()=> {
               autoComplete='off'
               id='description'
               name='description'
+              
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTodolistDescription(e.target.value)
               }

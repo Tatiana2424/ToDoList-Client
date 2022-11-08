@@ -21,6 +21,7 @@ export const CategoryPanel=()=> {
             autoComplete='off' 
             id='name' 
             name='name' 
+           
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setCategory(e.target.value)
             }
