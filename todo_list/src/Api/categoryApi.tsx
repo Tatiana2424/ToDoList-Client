@@ -12,6 +12,7 @@ export async function getCaregoty(
     .get(baseURL + "category/getCategories")
     .then(function (response): void {
       callback(response.data);
+    
     })
     .catch(function (error): void {
       console.log(error);
@@ -23,6 +24,7 @@ export async function postCategory(todoModel: object): Promise<void> {
     .post(baseURL + "category/postCategory", todoModel)
     .then(function (response): void {
       console.log(response);
+      window.location.reload();
     })
     .catch(function (error): void {
       console.log(error);
@@ -35,6 +37,7 @@ export async function deleteCategory(id: number): Promise<void> {
     .delete(baseURL + `category/deleteCategory?id=${id}`)
     .then(function (response): void {
       console.log(response);
+      window.location.reload();
     })
     .catch(function (error): void {
       console.log(error);

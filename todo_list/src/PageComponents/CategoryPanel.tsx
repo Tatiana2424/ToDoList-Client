@@ -34,7 +34,8 @@ export const CategoryPanel=()=> {
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             console.log(category);
             postCategory({ name: category});
-            setTimeout(()=>{window.location.reload();},100);
+          //  window.location.reload()
+           // setTimeout(()=>{window.location.reload();},100);
           }}
         >
             ADD

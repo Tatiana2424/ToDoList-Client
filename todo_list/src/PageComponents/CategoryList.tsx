@@ -3,6 +3,7 @@ import CategoryModel from '../Models/CategoryModel';
 import { useState, useEffect } from "react";
 import { deleteCategory, getCaregoty, postCategory } from '../Api/categoryApi';
 import { Link } from 'react-router-dom';
+import { CategoryPanel } from './CategoryPanel';
 
 export const CategoryList = () => {
     const [categoty, setCategory]: [
@@ -15,20 +16,21 @@ export const CategoryList = () => {
   
 return(
  <div>
+    <CategoryPanel/>
     {categoty?.map((category1) => {
         return (
         <div className="todo_item_container">
             <div>
                 <div className="todo_item_title">  
                 
-                {/* <Link
+                <Link 
                           to={"/todolist/" + category1.id}
-                          className="title"
-                         // state={{ id: category1.id }}
+                          className="title title"
+                          state={{ id: category1.id }}
                         >
-                          
-                        </Link> */}
-                        {category1.name}  
+                           {category1.name}  
+                        </Link>
+                       
                 </div>
             </div>
             <div className="todo_item_button_container">
@@ -40,7 +42,8 @@ return(
                 onClick={async (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
                     console.log(category1.id);
                     deleteCategory(category1.id);
-                   setTimeout(()=>{window.location.reload();},100);
+                  //  window.location.reload()
+                 //  setTimeout(()=>{window.location.reload();},100);
                   }}
                 >
                     DELETE
