@@ -5,7 +5,9 @@ element.style {
   text-align: center;
 }
 
-
+body{
+  background: linear-gradient(to right, #083308, #47994b);
+}
 .app_container {
 
     margin-top: 30px;
@@ -25,7 +27,7 @@ element.style {
   /* ToDo Panel */
 
   .todo_panel_container {
-    background-color: rgb(248, 227, 227);
+    background-color: rgb(209, 209, 205);
     box-shadow: 0px 8px 11px -8px rgba(34, 60, 80, 0.09);
     margin-bottom: 15px;
     width: 100%;
@@ -72,11 +74,13 @@ element.style {
     cursor: pointer;
     background-color: white;
     margin: 3px;
+    font-weight: bolder;
   }
   
   .button_red {
-    border: 1px solid rgba(210, 25, 25, 0.5);
+    border: 2px solid rgba(210, 25, 25, 0.5);
     color: #d21919;
+    
   }
   
   .button_red:hover {
@@ -84,8 +88,10 @@ element.style {
   }
   
   .button_orange {
-    border: 1px solid rgba(210, 102, 25, 0.5);
+    border: 2px solid rgba(210, 102, 25, 0.5);
     color: #d27c19;
+   
+   
   }
   
   .button_orange:hover {
@@ -93,40 +99,41 @@ element.style {
   }
   
   .button_blue {
-    border: 1px solid rgba(25, 118, 210, 0.5);
+    border: 2px solid rgba(25, 118, 210, 0.5);
     color: #1976d2;
   }
   
   .button_blue:hover {
-    background-color: rgba(25, 118, 210, 0.05);
+    background-color: rgba(218, 239, 248, 0.877);
  
-    border: 1px solid rgba(25, 118, 210, 0.5);
+    border: 2px solid rgba(25, 118, 210, 0.5);
     color: #1976d2;
   }
   .button_green {
-    border: 1px solid rgba(41, 180, 6, 0.5);
+    border: 2px solid rgba(41, 180, 6, 0.5);
     color: #12751a;
+    
   }
   
   .button_green:hover {
     background-color: rgba(198, 241, 189, 0.829);
  
-    border: 1px solid rgba(41, 180, 6, 0.5);
+    border: 2px solid rgba(41, 180, 6, 0.5);
     color: #12751a;
   }
   
-  .button_blue:hover {
-    background-color: rgba(25, 118, 210, 0.05);
-  } 
+ 
 
   /* ToDo List */
   .todo_item_container {
-    background-color: rgb(248, 227, 227);
+    background-color: rgb(209, 209, 205);
+    /* background: linear-gradient(to right, #ffffff, #929192); */
     box-shadow: 0px 8px 11px -8px rgba(34, 60, 80, 0.09);
     margin-bottom: 15px;
     width: 100%;
     padding: 25px 20px;
     border-radius: 5px;
+    word-break: break-word;
   }
   
   .todo_item_title {
@@ -145,11 +152,15 @@ element.style {
   }
   
   .todo_item_button_container {
-    display: flex;
-    justify-content: right;
+     display: flex;
+     justify-content: right; 
     gap: 5px;
   }
-  
+  .edit-delete{
+   
+    justify-content: right;
+  }
+
   .todo_item_button_delete {
     border-radius: 5px;
     border: 1px solid rgba(210, 25, 25, 0.5);
@@ -175,3 +186,97 @@ element.style {
   .todo_item_button_edit:hover {
     background-color: rgba(210, 84, 25, 0.05);
   }
+
+  .checkCircleOutlined{
+    
+    color: #12751a;
+    font-size: xx-large;
+    padding-right: 280px
+   
+  }
+  .closeCircleOutlined{
+    color: #d11f00;
+    font-size: xx-large;
+    padding-right: 280px
+  }
+  .icon{
+    padding-top: 20px;
+  }
+
+  /* The Modal (background) */
+.modal {
+  display: block; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  /* overflow: auto;  Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 0px solid rgb(214, 185, 88);
+  width: 50%; /* Could be more or less, depending on screen size */
+  height: 22%;
+}
+.modal-content-showErrorBoard {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 0px solid rgb(214, 185, 88);
+  width: 50%; /* Could be more or less, depending on screen size */
+  height: 25%;
+}
+.modal-content2 {
+  background-color: #fefefe;
+  margin: 10.5% auto; /* 15% from the top and centered */
+  margin-top: 25px;
+  padding: 10px;
+  border: 1px solid #888;
+  width: 75%; /* Could be more or less, depending on screen size */
+  
+}
+.header .modal-content2 {
+
+  z-index: -1;
+}
+.categName{
+  color: #ce2204;
+}
+.closeWarning{
+  display: flex;
+  justify-content: right;
+  color: #000000;
+  font-size: 20px;
+}
+.warning-text{
+  text-align: center;
+  font-size: 20px;
+}
+.warning{
+  display: flex;
+  justify-content: center;
+}
+.header_title{
+  font-family: cursive;
+  color: rgb(209, 209, 205) ;
+  font-size: 35px;
+  
+}
+.button-warning{
+  border-radius: 5px;
+    padding: 6px 20px;
+    cursor: pointer;
+    background-color: white;
+    font-weight: bolder;
+    width: 135px;
+    height: 40px;
+    margin: 5px;
+}

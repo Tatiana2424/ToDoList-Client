@@ -1,6 +1,8 @@
+import { Button, Input } from 'antd';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { postToDoList } from '../Api/toDoListApi';
+import { Header } from './Header';
 
 
 
@@ -17,15 +19,17 @@ export const TodoPanel=()=> {
   ] = useState<string>("");
  // console.log("ggg "+location.state.id)
   return (
+    <div>
+      <Header/>
     <div className="todo_panel_container">
       <div className="fields_container">
         <div className="field_container">
           <label htmlFor='name'>
             <div>name</div>
-            <input autoComplete='off' 
+            <Input autoComplete='off' 
             id='name'
             name='name' 
-           
+            maxLength={50}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTodolistName(e.target.value)
             }
@@ -35,11 +39,11 @@ export const TodoPanel=()=> {
         <div className="field_container">
           <label htmlFor='description'>
             <div>description</div>
-            <input
+            <Input
               autoComplete='off'
               id='description'
               name='description'
-              
+              maxLength={200}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTodolistDescription(e.target.value)
               }
@@ -48,25 +52,26 @@ export const TodoPanel=()=> {
         </div>
       </div>
       <div className="button_container">
-      <button 
+      <Button 
         className='button button_green'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {navigate("/")}}
         >
 
            BACK TO CATEGORY LIST
-        </button>
-        <button 
+        </Button>
+        <Button 
         className='button button_blue'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
           console.log(todolistName);
-          postToDoList({ name: todolistName, description:todolistDescription, categoryId:location.state.id});
+          postToDoList({ name: todolistName, description:todolistDescription, categoryId:location.state.id,status:false});
           console.log(todolistDescription)
          // setTimeout(()=>{window.location.reload();},100);
         }}
         >
             ADD
-        </button>
+        </Button>
       </div>
+    </div>
     </div>
   );
 };

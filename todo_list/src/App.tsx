@@ -16,7 +16,7 @@ function App() {
     <div className="app_container">
       <div className="container">
       <BrowserRouter>
-        <Header todoCount={2}/>
+       {/* <Header todoTitle={"Category List"}/> */}
          {/* <CategoryPanel/>
          <CategoryList/> */}
         
