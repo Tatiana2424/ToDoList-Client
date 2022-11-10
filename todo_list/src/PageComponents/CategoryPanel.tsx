@@ -2,6 +2,7 @@ import React from 'react';
 import CategoryModel from '../Models/CategoryModel';
 import { useState, useEffect } from "react";
 import { getCaregoty, postCategory } from '../Api/categoryApi';
+import { Button, Input } from 'antd';
 
 
 export const CategoryPanel=()=> {
@@ -12,16 +13,22 @@ export const CategoryPanel=()=> {
       ] = useState<string>("");
 
   return (
+    <div>
+    <div className="header_container">
+    <h1 className="header_title">
+      Category list 
+    </h1>
+  </div>
     <div className="todo_panel_container">
       <div className="fields_container">
         <div className="field_container">
           <label htmlFor='name'>
             <div>Name</div>
-            <input 
+            <Input 
             autoComplete='off' 
             id='name' 
             name='name' 
-           
+            maxLength={100}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setCategory(e.target.value)
             }
@@ -30,7 +37,7 @@ export const CategoryPanel=()=> {
         </div>
       </div>
       <div className="button_container">
-        <button 
+        <Button 
         className='button button_blue'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             console.log(category);
@@ -40,8 +47,9 @@ export const CategoryPanel=()=> {
           }}
         >
             ADD
-        </button>
+        </Button>
       </div>
+    </div>
     </div>
   );
 };

@@ -31,9 +31,9 @@ export async function postCategory(todoModel: object): Promise<void> {
     });
 }
 
-export async function putCategory(id: number, categoryModel: CategoryModel): Promise<void> {
+export async function putCategory(categoryModel: CategoryModel): Promise<void> {
   await axios
-    .put(baseURL + `category/putCategory?id=${id}`, categoryModel)
+    .put(baseURL + `category/putCategory`, categoryModel)
     .then(function (response): void {
       console.log(response);
       window.location.reload();

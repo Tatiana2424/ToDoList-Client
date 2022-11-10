@@ -46,9 +46,9 @@ export async function postToDoList(todoModel: object): Promise<void> {
     });
 }
 
-export async function putToDoList(id: number, todolistModel: ToDoListModel): Promise<void> {
+export async function putToDoList(todolistModel: ToDoListModel): Promise<void> {
   await axios
-    .put(baseURL + `todolist/putToDoList?id=${id}`, todolistModel)
+    .put(baseURL + `todolist/putToDoList`, todolistModel)
     .then(function (response): void {
       console.log(response);
       window.location.reload();
