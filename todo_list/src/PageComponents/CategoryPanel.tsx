@@ -1,24 +1,47 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import CategoryModel from '../Models/CategoryModel';
 import { useState, useEffect } from "react";
-import { getCaregoty, postCategory } from '../Api/categoryApi';
+import { getCategory, postCategory } from '../Api/categoryApi';
 import { Button, Input } from 'antd';
+import { Header } from './Header';
 
+type Props = {
+  setCategories: React.Dispatch<React.SetStateAction<CategoryModel[]>>
+};
 
-export const CategoryPanel=()=> {
+export const CategoryPanel=(props: Props)=> {
 
-      const [category, setCategory]: [
-        string,
-        React.Dispatch<React.SetStateAction<string>>
-      ] = useState<string>("");
+  // const [categories, setCategories]: [
+  //   CategoryModel[],
+  //   React.Dispatch<React.SetStateAction<CategoryModel[]>>
+  // ] = useState<CategoryModel[]>([]);
+  // useEffect((): void => {
+  //   getCategory().then((resp): void => {
+  //     setCategories(resp.data);
+  //   });
+  // }, []);
 
+  const [category, setCategory]: [
+    string,
+    React.Dispatch<React.SetStateAction<string>>
+  ] = useState<string>("");
+
+  const Add = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+    postCategory({ name: category })
+      .then(function (response): void {
+        getCategory().then((resp): void => {
+          props.setCategories(resp.data);
+         // console.log(resp.data);
+        });
+      })
+      .catch(function (error): void {
+        console.log(error);
+      });
+  };
+     
   return (
     <div>
-    <div className="header_container">
-    <h1 className="header_title">
-      Category list 
-    </h1>
-  </div>
+    <Header todoTitle={'Category List'}/>
     <div className="todo_panel_container">
       <div className="fields_container">
         <div className="field_container">
@@ -29,6 +52,7 @@ export const CategoryPanel=()=> {
             id='name' 
             name='name' 
             maxLength={100}
+            placeholder={"add new category"}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setCategory(e.target.value)
             }
@@ -41,9 +65,10 @@ export const CategoryPanel=()=> {
         className='button button_blue'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             console.log(category);
-            postCategory({ name: category});
+           // postCategory({ name: category});
+           Add(e)
           //  window.location.reload()
-           // setTimeout(()=>{window.location.reload();},100);
+           // setTimeout(()=>{window.location.reload();},100)
           }}
         >
             ADD

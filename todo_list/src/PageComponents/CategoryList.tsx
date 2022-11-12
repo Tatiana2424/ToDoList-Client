@@ -1,37 +1,83 @@
 import React from 'react';
 import CategoryModel from '../Models/CategoryModel';
 import { useState, useEffect } from "react";
-import { deleteCategory, getCaregoty, postCategory, putCategory } from '../Api/categoryApi';
+import { deleteCategory, getCategory, postCategory, putCategory } from '../Api/categoryApi';
 import { Link } from 'react-router-dom';
 import { CategoryPanel } from './CategoryPanel';
 import { Button, Input } from "antd";
 import { CloseCircleOutlined } from '@ant-design/icons';
-
+//  type Props = {
+//     item: any;
+//     setCategories: React.Dispatch<React.SetStateAction<CategoryModel[]>>;
+//   };
 export const CategoryList = () => {
+ 
     const [categoty, setCategory]: [
         CategoryModel[],
         React.Dispatch<React.SetStateAction<CategoryModel[]>>
       ] = useState<CategoryModel[]>([]);
+
       useEffect((): void => {
-        getCaregoty(setCategory);
+        getCategory().then((resp): void => {
+          setCategory(resp.data);
+        });
       }, []);
+    
+      const [categoryName, setCategoryName]: [
+        string,
+        React.Dispatch<React.SetStateAction<string>>
+      ] = useState<string>("");
+    
+      const [showEditCategory, setShowEditCategory]: [
+        boolean,
+        React.Dispatch<React.SetStateAction<boolean>>
+      ] = useState<boolean>(true);
+    
+      const showDeleteConfirm = () => {
+            deleteCategory(chosenCategory).then((resp) => {
+              getCategory().then((resp): void => {
+                setCategory(resp.data);
+              });
+            });
+           // window.location.reload();
+      };
+      const [categoryId, setCategoryId]: [
+        number,
+        React.Dispatch<React.SetStateAction<number>>
+      ] = useState<number>(0);
+     
+      const Rename = (): void => {
+       // let model: CategoryModel = categoty;
+      //  model.name = categoryName;
+        putCategory({id:categoryId, name: categoryName}).then(function (response): void {
+          getCategory().then((resp): void => {
+            setCategory(resp.data);
+          });
+        });
+        setShowEditCategory(!showEditCategory);
+      };
+    
+    //   useEffect((): void => {
+    //     getCategory(setCategory);
+    //   }, []);
       
       const [categoryIdForEdit, setCategoryIdForEdit] = React.useState<number | null>(null);
       const selectCategoryIdForEdit = (id: CategoryModel['id']) => {
         setCategoryIdForEdit(id);
       };  
-      const [categoryName, setCategoryName]: [
-        string,
-        React.Dispatch<React.SetStateAction<string>>
-      ] = useState<string>("");
+    //   const [categoryName, setCategoryName]= useState<string>("");
       const [showWarning, setWarning] = useState(false);
-      const[chosenCategory, setChosenCategory]: [
-        number,
-        React.Dispatch<React.SetStateAction<number>>
-      ] = useState<number>(0);
+      const[chosenCategory, setChosenCategory]= useState<number>(0);
+
+    //   const [showEditCategory, setShowEditCategory]: [
+    //     boolean,
+    //     React.Dispatch<React.SetStateAction<boolean>>
+    //   ] = useState<boolean>(true);
+
+      
 return(
  <div>
-    <CategoryPanel/>
+    <CategoryPanel setCategories={setCategory}/>
     {categoty?.map((category1: CategoryModel) => {
        if(category1.id!=categoryIdForEdit)
        return (
@@ -42,7 +88,8 @@ return(
                 <Link 
                           to={"/todolist/" + category1.id}
                           className="title title"
-                          state={{ id: category1.id }}
+                          state={{ id: category1.id, name:category1.name }}
+
                         >
                            {category1.name}  
                         </Link>
@@ -56,6 +103,8 @@ return(
                   selectCategoryIdForEdit(category1.id)
                    console.log(categoryName)
                    setCategoryName(category1.name)
+                   setCategoryId(category1.id);
+                //   Rename;
                 }}
                 >
                   
@@ -103,8 +152,11 @@ return(
         <Button 
         className='button button_blue'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-            console.log(categoryName);
-            putCategory({id:category1.id, name: categoryName});
+            console.log("hhh "+categoryId+"   "+categoryName);
+            
+          
+           // putCategory({id:category1.id, name: categoryName});
+            Rename();
             setCategoryIdForEdit(null)
           //  window.location.reload()
            // setTimeout(()=>{window.location.reload();},100);
@@ -131,7 +183,8 @@ return(
                             className="button_red button-warning"
                             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
                              // console.log("yy "+category1.id);
-                              deleteCategory(chosenCategory);
+                             // deleteCategory(chosenCategory);
+                              showDeleteConfirm();
                               setWarning(!showWarning)
                             }}
                           >

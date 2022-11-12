@@ -17,19 +17,20 @@ export const TodoPanel=()=> {
     string,
     React.Dispatch<React.SetStateAction<string>>
   ] = useState<string>("");
- // console.log("ggg "+location.state.id)
+  console.log("ggg "+location.state.name)
   return (
     <div>
-      <Header/>
+     <Header todoTitle={'ToDo List "'+location.state.name+'"'}/> 
     <div className="todo_panel_container">
       <div className="fields_container">
         <div className="field_container">
           <label htmlFor='name'>
-            <div>name</div>
+            <div>Name</div>
             <Input autoComplete='off' 
             id='name'
             name='name' 
             maxLength={50}
+            placeholder={"add name for todo item"}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setTodolistName(e.target.value)
             }
@@ -38,12 +39,13 @@ export const TodoPanel=()=> {
         </div>
         <div className="field_container">
           <label htmlFor='description'>
-            <div>description</div>
+            <div>Description</div>
             <Input
               autoComplete='off'
               id='description'
               name='description'
               maxLength={200}
+              placeholder={"add description for todo item"}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTodolistDescription(e.target.value)
               }
