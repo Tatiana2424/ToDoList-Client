@@ -1,12 +1,15 @@
 import { Button, Input } from 'antd';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { postToDoList } from '../Api/toDoListApi';
+import { getToDoListByCategoryId, postToDoList } from '../Api/toDoListApi';
+import ToDoListModel from '../Models/ToDoListModel';
 import { Header } from './Header';
 
+type Props = {
+  setToDoList: React.Dispatch<React.SetStateAction<ToDoListModel[]>>
+};
 
-
-export const TodoPanel=()=> {
+export const TodoPanel=(props: Props)=> {
   const location = useLocation();
   let navigate = useNavigate();
   const [todolistName, setTodolistName]: [
@@ -18,6 +21,25 @@ export const TodoPanel=()=> {
     React.Dispatch<React.SetStateAction<string>>
   ] = useState<string>("");
   console.log("ggg "+location.state.name)
+
+  // const [category, setCategory]: [
+  //   string,
+  //   React.Dispatch<React.SetStateAction<string>>
+  // ] = useState<string>("");
+
+  const AddToDo = (e: React.MouseEvent<HTMLElement, MouseEvent>): void => {
+    postToDoList({ name: todolistName, description: todolistDescription, categoryId: location.state.id,status:false})
+      .then(function (response): void {
+        getToDoListByCategoryId(location.state.id).then((resp): void => {
+          props.setToDoList(resp.data);
+         // console.log(resp.data);
+        });
+      })
+      .catch(function (error): void {
+        console.log(error);
+      });
+  };
+
   return (
     <div>
      <Header todoTitle={'ToDo List "'+location.state.name+'"'}/> 
@@ -29,6 +51,7 @@ export const TodoPanel=()=> {
             <Input autoComplete='off' 
             id='name'
             name='name' 
+            value={todolistName}
             maxLength={50}
             placeholder={"add name for todo item"}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -44,6 +67,7 @@ export const TodoPanel=()=> {
               autoComplete='off'
               id='description'
               name='description'
+              value={todolistDescription}
               maxLength={200}
               placeholder={"add description for todo item"}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -65,8 +89,11 @@ export const TodoPanel=()=> {
         className='button button_blue'
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
           console.log(todolistName);
-          postToDoList({ name: todolistName, description:todolistDescription, categoryId:location.state.id,status:false});
-          console.log(todolistDescription)
+         // postToDoList({ name: todolistName, description:todolistDescription, categoryId:location.state.id,status:false});
+         AddToDo(e)
+         console.log(todolistDescription)
+         setTodolistName("")
+         setTodolistDescription("")
          // setTimeout(()=>{window.location.reload();},100);
         }}
         >
