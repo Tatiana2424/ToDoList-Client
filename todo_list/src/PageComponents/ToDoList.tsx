@@ -14,10 +14,16 @@ export const ToDoList = () => {
       ToDoListModel[],
       React.Dispatch<React.SetStateAction<ToDoListModel[]>>
     ] = useState<ToDoListModel[]>([]);
-    useEffect((): void => {
-      getToDoListByCategoryId(location.state.id,setTodolist);
-    }, []);
+    // useEffect((): void => {
+    //   getToDoListByCategoryId(location.state.id,setTodolist);
+    // }, []);
   
+    useEffect((): void => {
+      getToDoListByCategoryId(location.state.id).then((resp): void => {
+        setTodolist(resp.data);
+      });
+    }, []);
+
     const [todoIdForEdit, setTodoIdForEdit] = React.useState<number | null>(null);
     const selectTodoIdForEdit = (id: ToDoListModel['id']) => {
       setTodoIdForEdit(id);
@@ -33,14 +39,49 @@ export const ToDoList = () => {
       React.Dispatch<React.SetStateAction<string>>
     ] = useState<string>("");
 
+    const [todoId, setTodoId]: [
+      number,
+      React.Dispatch<React.SetStateAction<number>>
+    ] = useState<number>(0);
+
+    const [todolistStatus, setTodolistStatus]: [
+      boolean,
+        React.Dispatch<React.SetStateAction<boolean>>
+      ] = useState<boolean>(false);
+
     const [showWarningToDo, setWarningToDo] = useState(false);
     const[chosenToDO, setChosenToDo]: [
       number,
       React.Dispatch<React.SetStateAction<number>>
     ] = useState<number>(0);
+
+    const showDeleteConfirm = () => {
+      deleteToDoList(chosenToDO).then((resp) => {
+        getToDoListByCategoryId(location.state.id).then((resp): void => {
+          setTodolist(resp.data);
+        });
+      });
+     // window.location.reload();
+};
+
+const [showEditToDo, setShowEditToDo]: [
+  boolean,
+  React.Dispatch<React.SetStateAction<boolean>>
+] = useState<boolean>(true);
+
+const RenameToDo = (): void => {
+ // let model: CategoryModel = categoty;
+//  model.name = categoryName;
+  putToDoList({id:todoId, name: todolistName, description: todolistDescription, categoryId: location.state.id, status:todolistStatus}).then(function (response): void {
+    getToDoListByCategoryId(location.state.id).then((resp): void => {
+      setTodolist(resp.data);
+    });
+  });
+  setShowEditToDo(!showEditToDo);
+};
 return (
   <div>
-    <TodoPanel/>
+    <TodoPanel setToDoList={setTodolist}/>
     {todolist?.map((todoItem: ToDoListModel) => {
        if(todoItem.id!=todoIdForEdit)
         return (
@@ -74,6 +115,8 @@ return (
       let toDoListVal: ToDoListModel = todoItem;
       toDoListVal.status = !toDoListVal.status;
       putToDoList(toDoListVal);
+      setTodolistStatus(toDoListVal.status)
+      console.log("stat: "+todolistStatus);
      }
     }
      />
@@ -84,6 +127,8 @@ return (
       let toDoListVal: ToDoListModel = todoItem;
       toDoListVal.status = !toDoListVal.status;
       putToDoList(toDoListVal);
+      setTodolistStatus(toDoListVal.status)
+      console.log("stat: "+todolistStatus);
      }
     }
      />
@@ -95,14 +140,12 @@ return (
       className='button button_orange'
       onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
         selectTodoIdForEdit(todoItem.id)
+        setTodoId(todoItem.id)
         setTodolistName(todoItem.name)
         setTodolistDescription(todoItem.description)
         console.log("uuuu "+todoItem.name);
         console.log("status "+todoItem.status);
-       
-       //state={{ id: todoItem.id }}
-      // setTimeout(()=>{window.location.reload();},100);
-       //  setShowToDo(!showToDo)
+      
       }}
  
       >
@@ -167,7 +210,8 @@ return (
           className='button button_blue'
           onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             console.log(todolistName);
-            putToDoList({id:todoItem.id, name: todolistName, description:todolistDescription, categoryId:location.state.id,status:false});
+            RenameToDo()
+            //putToDoList({id:todoItem.id, name: todolistName, description:todolistDescription, categoryId:location.state.id,status:false});
             console.log(todolistDescription)
             
             setTodoIdForEdit(null)
@@ -195,8 +239,8 @@ return (
                           <button
                             className="button_red button-warning"
                             onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-                            
-                              deleteToDoList(chosenToDO);
+                              showDeleteConfirm()
+                            //  deleteToDoList(chosenToDO);
                               setWarningToDo(!showWarningToDo);
                             }}
                           >

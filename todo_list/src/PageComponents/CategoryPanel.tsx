@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useRef } from 'react';
 import CategoryModel from '../Models/CategoryModel';
 import { useState, useEffect } from "react";
 import { getCategory, postCategory } from '../Api/categoryApi';
@@ -38,7 +38,7 @@ export const CategoryPanel=(props: Props)=> {
         console.log(error);
       });
   };
-     
+  
   return (
     <div>
     <Header todoTitle={'Category List'}/>
@@ -51,6 +51,7 @@ export const CategoryPanel=(props: Props)=> {
             autoComplete='off' 
             id='name' 
             name='name' 
+            value={category}
             maxLength={100}
             placeholder={"add new category"}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -62,11 +63,14 @@ export const CategoryPanel=(props: Props)=> {
       </div>
       <div className="button_container">
         <Button 
-        className='button button_blue'
+        className='button button_blue'       
         onClick={(e: React.MouseEvent<HTMLElement, MouseEvent>) => {
             console.log(category);
            // postCategory({ name: category});
            Add(e)
+           setCategory('');
+           
+           console.log(category);
           //  window.location.reload()
            // setTimeout(()=>{window.location.reload();},100)
           }}
